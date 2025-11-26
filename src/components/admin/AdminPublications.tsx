@@ -18,7 +18,7 @@ export default function AdminPublications() {
   const loadPublications = async () => {
     try {
       setLoading(true);
-      const data = await api.publications.list({ limit: 100 });
+      const data = await api.publications.listAll();
       setPublications(data);
       setError('');
     } catch (err) {
@@ -60,10 +60,10 @@ export default function AdminPublications() {
     }
   };
 
-  const handleToggleAvailability = async (publication: PublicationResponse) => {
+  const handleToggleVisibility = async (publication: PublicationResponse) => {
     try {
       await api.publications.update(publication.id, {
-        is_available: !publication.is_available,
+        is_visible: !publication.is_visible,
       });
       await loadPublications();
     } catch (err) {
@@ -151,14 +151,14 @@ export default function AdminPublications() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button
-                    onClick={() => handleToggleAvailability(publication)}
+                    onClick={() => handleToggleVisibility(publication)}
                     className={`flex items-center gap-1 px-2 py-1 text-xs font-medium rounded ${
-                      publication.is_available
+                      publication.is_visible
                         ? 'bg-green-100 text-green-700'
                         : 'bg-red-100 text-red-700'
                     }`}
                   >
-                    {publication.is_available ? (
+                    {publication.is_visible ? (
                       <>
                         <Eye className="w-3 h-3" />
                         Available

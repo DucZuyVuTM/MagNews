@@ -36,6 +36,7 @@ export interface PublicationUpdate {
   description?: string;
   price_monthly?: number;
   price_yearly?: number;
+  is_visible?: boolean;
   is_available?: boolean;
 }
 
@@ -49,6 +50,7 @@ export interface PublicationResponse {
   price_monthly: number;
   price_yearly: number;
   cover_image_url?: string;
+  is_visible: boolean;
   is_available: boolean;
   created_at: string;
 }

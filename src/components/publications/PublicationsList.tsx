@@ -23,7 +23,7 @@ export default function PublicationsList({ onSelectPublication }: PublicationsLi
       setPublications(data);
       setError('');
     } catch (err) {
-      setError('Failed to load publications');
+      setError('Failed to load publications, you may have to register or sign in');
       console.error(err);
     } finally {
       setLoading(false);

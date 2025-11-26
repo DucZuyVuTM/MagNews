@@ -82,6 +82,8 @@ export const api = {
   },
 
   publications: {
+    listAll: () => fetchApi<PublicationResponse[]>('/api/publications/all'),
+
     list: (params?: { skip?: number; limit?: number; type?: string }) => {
       const query = new URLSearchParams();
       if (params?.skip !== undefined) query.append('skip', params.skip.toString());
