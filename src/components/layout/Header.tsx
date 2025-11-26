@@ -1,0 +1,100 @@
+import { useAuth } from '../../hooks/useAuth';
+import { LogOut, User, BookOpen } from 'lucide-react';
+
+interface HeaderProps {
+  currentPage: string;
+  onNavigate: (page: string) => void;
+}
+
+export default function Header({ currentPage, onNavigate }: HeaderProps) {
+  const { user, token, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    onNavigate('home');
+  };
+
+  return (
+    <header className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div
+            onClick={() => onNavigate('home')}
+            className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+          >
+            <BookOpen className="w-8 h-8 text-blue-600" />
+            <span className="text-2xl font-bold text-gray-900">MagNews</span>
+          </div>
+
+          <nav className="flex items-center gap-6">
+            <button
+              onClick={() => onNavigate('home')}
+              className={`text-sm font-medium transition-colors ${
+                currentPage === 'home'
+                  ? 'text-blue-600'
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Publications
+            </button>
+
+            {token ? (
+              <>
+                <button
+                  onClick={() => onNavigate('subscriptions')}
+                  className={`text-sm font-medium transition-colors ${
+                    currentPage === 'subscriptions'
+                      ? 'text-blue-600'
+                      : 'text-gray-700 hover:text-blue-600'
+                  }`}
+                >
+                  My Subscriptions
+                </button>
+
+                {user?.role === 'admin' && (
+                  <button
+                    onClick={() => onNavigate('admin')}
+                    className={`text-sm font-medium transition-colors ${
+                      currentPage === 'admin'
+                        ? 'text-blue-600'
+                        : 'text-gray-700 hover:text-blue-600'
+                    }`}
+                  >
+                    Admin
+                  </button>
+                )}
+
+                <button
+                  onClick={() => onNavigate('profile')}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
+                    currentPage === 'profile'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  <span className="text-sm font-medium">{user?.username}</span>
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="text-sm font-medium">Logout</span>
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => onNavigate('auth')}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+              >
+                Sign In
+              </button>
+            )}
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+}
