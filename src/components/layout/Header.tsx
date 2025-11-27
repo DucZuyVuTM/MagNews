@@ -1,5 +1,5 @@
 import { useAuth } from '../../hooks/useAuth';
-import { LogOut, User, BookOpen, LogIn } from 'lucide-react';
+import { LogOut, User, LogIn } from 'lucide-react';
 import MobileMenu from './MobileMenu';
 
 interface HeaderProps {
@@ -24,7 +24,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             onClick={() => onNavigate('home')}
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
           >
-            <BookOpen className="w-8 h-8 text-blue-600" />
+            <img src="/src/images/logo.png" width={35} height={35}></img>
             <span className="text-2xl font-bold text-gray-900">MagNews</span>
           </div>
 
