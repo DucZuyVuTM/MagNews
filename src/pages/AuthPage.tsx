@@ -10,7 +10,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
   const [mode, setMode] = useState<'login' | 'register'>('login');
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
+    <div className="bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
       {mode === 'login' ? (
         <LoginForm
           onSuccess={onSuccess}
