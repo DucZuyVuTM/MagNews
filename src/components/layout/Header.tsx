@@ -1,5 +1,6 @@
 import { useAuth } from '../../hooks/useAuth';
-import { LogOut, User, BookOpen } from 'lucide-react';
+import { LogOut, User, BookOpen, LogIn } from 'lucide-react';
+import MobileMenu from './MobileMenu';
 
 interface HeaderProps {
   currentPage: string;
@@ -18,6 +19,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
     <header className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          {/* Logo */}
           <div
             onClick={() => onNavigate('home')}
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
@@ -26,7 +28,8 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             <span className="text-2xl font-bold text-gray-900">MagNews</span>
           </div>
 
-          <nav className="flex items-center gap-6">
+          {/* Desktop Menu */}
+          <nav className="hidden md:flex items-center gap-6">
             <button
               onClick={() => onNavigate('home')}
               className={`text-sm font-medium transition-colors ${
@@ -87,12 +90,16 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             ) : (
               <button
                 onClick={() => onNavigate('auth')}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+                className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
-                Sign In
+                <LogIn className="w-4 h-4" />
+                <span className="text-sm font-medium">Sign In</span>
               </button>
             )}
           </nav>
+
+          {/* Mobile Menu */}
+          <MobileMenu currentPage={currentPage} onNavigate={onNavigate} />
         </div>
       </div>
     </header>

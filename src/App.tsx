@@ -8,6 +8,7 @@ import AuthPage from './pages/AuthPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
 import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage';
+import Footer from './components/layout/Footer';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -40,6 +41,8 @@ function AppContent() {
       {currentPage === 'subscriptions' && <SubscriptionsPage />}
       {currentPage === 'admin' && <AdminPage />}
       {currentPage === 'profile' && <ProfilePage />}
+
+      <Footer />
     </div>
   );
 }
