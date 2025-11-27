@@ -33,16 +33,16 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header currentPage={currentPage} onNavigate={handleNavigate} />
 
-      <div className="min-h-[calc(100vh-4rem-116.667px)]">
+      <main className="flex-1">
         {currentPage === 'home' && <HomePage />}
         {currentPage === 'auth' && <AuthPage onSuccess={handleAuthSuccess} />}
         {currentPage === 'subscriptions' && <SubscriptionsPage />}
         {currentPage === 'admin' && <AdminPage />}
         {currentPage === 'profile' && <ProfilePage />}
-      </div>
+      </main>
 
       <Footer />
     </div>

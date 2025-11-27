@@ -3,7 +3,7 @@ import { FaMobileAlt, FaEnvelope } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
   return (
-    <div className="mx-8 mt-3 py-6 border-t border-solid border-gray-300">
+    <footer className="mx-8 mt-3 py-6 border-t border-gray-300">
       <div className="container mx-auto px-4 mb-2">
         <p className="text-center">
           <FaMobileAlt className="inline mr-1" />
@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
           </a>
         </p>
       </div>
-    </div>
+    </footer>
   );
 };
 
