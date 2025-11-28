@@ -17,6 +17,8 @@ class ApiError extends Error {
   }
 }
 
+let isHandling401 = false;
+
 async function fetchApi<T>(
   endpoint: string,
   options: RequestInit = {}
@@ -37,10 +39,19 @@ async function fetchApi<T>(
     headers,
   });
 
-  if (response.status === 401) {
+  if (response.status === 401 && !isHandling401) {
+    isHandling401 = true;
+
+    localStorage.removeItem('token');
+    alert('Your session has expired. Automatically logging out...');
+
     window.dispatchEvent(new Event('auth:logout'));
-    
-    alert('Your session has expired. Automatically logout.');
+    setTimeout(() => {
+      isHandling401 = false;
+    }, 5000);
+  }
+
+  if (response.status === 401) {
     throw new ApiError(401, 'Your session has expired. Please log in again.');
   }
 
