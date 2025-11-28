@@ -24,7 +24,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             onClick={() => onNavigate('home')}
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
           >
-            <img src="/src/images/logo.png" width={35} height={35}></img>
+            <img src="/images/logo.png" width={35} height={35}></img>
             <span className="text-2xl font-bold text-gray-900">MagNews</span>
           </div>
 
