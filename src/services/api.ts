@@ -37,6 +37,13 @@ async function fetchApi<T>(
     headers,
   });
 
+  if (response.status === 401) {
+    window.dispatchEvent(new Event('auth:logout'));
+    
+    alert('Your session has expired. Automatically logout.');
+    throw new ApiError(401, 'Your session has expired. Please log in again.');
+  }
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
     throw new ApiError(response.status, error.detail || 'Request failed');
