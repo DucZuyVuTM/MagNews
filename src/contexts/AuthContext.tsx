@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handleUnauthorized = () => {
       logout();
-      window.location.href = '/';
+      window.dispatchEvent(new Event('auth:force-home'));
     };
 
     window.addEventListener('auth:logout', handleUnauthorized);

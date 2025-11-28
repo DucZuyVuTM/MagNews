@@ -15,6 +15,18 @@ function AppContent() {
   const { token, setUser } = useAuth();
 
   useEffect(() => {
+    const handleForceHome = () => {
+      setCurrentPage('home');
+    };
+
+    window.addEventListener('auth:force-home', handleForceHome);
+
+    return () => {
+      window.removeEventListener('auth:force-home', handleForceHome);
+    };
+  }, []);
+
+  useEffect(() => {
     if (token) {
       api.users.getMe()
         .then(setUser)
