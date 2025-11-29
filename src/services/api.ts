@@ -106,7 +106,7 @@ export const api = {
       const query = new URLSearchParams();
       if (params?.skip !== undefined) query.append('skip', params.skip.toString());
       if (params?.limit !== undefined) query.append('limit', params.limit.toString());
-      if (params?.type) query.append('type', params.type);
+      if (params?.type != null && params.type !== '') query.append('type', params.type);
 
       return fetchApi<PublicationResponse[]>(
         `/api/publications/?${query.toString()}`
@@ -124,7 +124,7 @@ export const api = {
 
     update: (id: number, data: PublicationUpdate) =>
       fetchApi<PublicationResponse>(`/api/publications/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         body: JSON.stringify(data),
       }),
 
