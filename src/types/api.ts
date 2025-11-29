@@ -34,8 +34,12 @@ export interface PublicationCreate {
 export interface PublicationUpdate {
   title?: string;
   description?: string;
+  type?: string;
+  publisher?: string;
+  frequency?: string;
   price_monthly?: number;
   price_yearly?: number;
+  cover_image_url?: string;
   is_visible?: boolean;
   is_available?: boolean;
 }

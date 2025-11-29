@@ -46,11 +46,6 @@ export default function PublicationForm({
         price_yearly: parseFloat(formData.price_yearly),
       };
 
-      if (!formData.description) delete data.description;
-      if (!formData.publisher) delete data.publisher;
-      if (!formData.frequency) delete data.frequency;
-      if (!formData.cover_image_url) delete data.cover_image_url;
-
       await onSubmit(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
