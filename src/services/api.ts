@@ -110,7 +110,7 @@ export const api = {
       current_password: string;
       new_password: string;
       confirm_new_password: string;
-    }) => fetchApi<{ message: string }>("/api/users/me/change-password", {
+    }) => fetchApi<{ message: string }>("/api/users/me/password", {
       method: "POST",
       body: JSON.stringify(data)
     })

@@ -32,7 +32,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
   };
 
   useEffect(() => {
