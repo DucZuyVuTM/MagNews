@@ -158,7 +158,7 @@ export default function UserProfileEdit() {
                   />
                 ) : (
                   <p className="text-gray-900 font-medium">
-                    {user.full_name || <span className="text-gray-400">*Not set up yet</span>}
+                    {user.full_name || <span className="text-gray-400">Not set up yet</span>}
                   </p>
                 )}
               </div>

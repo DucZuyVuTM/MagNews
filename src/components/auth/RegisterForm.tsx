@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { api, ApiError } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
+import { Info } from 'lucide-react';
 
 interface RegisterFormProps {
   onSuccess: () => void;
@@ -17,6 +18,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const { login, setUser } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
 
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
-      <h2 className="text-3xl font-bold text-gray-900 mb-6">Create Account</h2>
+      <h2 className="text-center text-3xl font-bold text-gray-900 mb-6">Create Account</h2>
 
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
@@ -116,9 +118,32 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
           />
         </div>
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="relative">
+          <label htmlFor="password" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
             Password
+            <div
+              className="relative"
+              onMouseEnter={() => setShowTooltip(true)}
+              onMouseLeave={() => setShowTooltip(false)}
+              onClick={() => setShowTooltip(!showTooltip)}
+            >
+              <Info className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer transition" />
+              
+              {(showTooltip || (window.innerWidth < 768 && showTooltip)) && (
+                <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-2xl border border-gray-700">
+                  <div className="space-y-1">
+                    <p className="font-medium">Password Requirements:</p>
+                    <ul className="list-disc list-inside space-y-1 opacity-90">
+                      <li>At least 8 characters</li>
+                      <li>Contains uppercase letters (A-Z)</li>
+                      <li>Contains lowercase letters (a-z)</li>
+                      <li>Contains at least 1 number (0-9)</li>
+                    </ul>
+                  </div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-900"></div>
+                </div>
+              )}
+            </div>
           </label>
           <input
             id="password"

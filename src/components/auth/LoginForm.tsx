@@ -41,7 +41,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
 
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
-      <h2 className="text-3xl font-bold text-gray-900 mb-6">Sign In</h2>
+      <h2 className="text-center text-3xl font-bold text-gray-900 mb-6">Sign In</h2>
 
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
