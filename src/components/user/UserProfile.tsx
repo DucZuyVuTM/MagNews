@@ -65,7 +65,10 @@ export default function UserProfileEdit() {
     setLoading(true);
     setError('');
     try {
-      await api.users.updatePassword(passwordData);
+      await api.users.updatePassword({
+        current_password: passwordData.current_password,
+        new_password: passwordData.new_password,
+      });
       alert('Password changed successfully! Please log in again.');
       setPasswordData({ current_password: '', new_password: '', confirm_new_password: '' });
       setShowPasswordForm(false);
@@ -226,6 +229,7 @@ export default function UserProfileEdit() {
                     type="password"
                     required
                     minLength={8}
+                    maxLength={100}
                     value={passwordData.new_password}
                     onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"

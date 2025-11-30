@@ -35,7 +35,7 @@ export default function MobileMenu({ currentPage, onNavigate }: MobileMenuProps)
         { label: 'Publications', page: 'home', icon: BookOpen },
         { label: 'My Subscriptions', page: 'subscriptions', icon: Receipt },
         user?.role === 'admin' && { label: 'Admin Panel', page: 'admin', icon: Shield },
-        { label: 'Profile', page: 'profile', icon: User },
+        { label: user?.username || 'Profile', page: 'profile', icon: User },
       ].filter(Boolean) as MenuItem[]
     : [
         { label: 'Publications', page: 'home', icon: BookOpen },

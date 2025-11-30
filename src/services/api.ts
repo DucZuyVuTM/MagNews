@@ -109,7 +109,6 @@ export const api = {
     updatePassword: (data: {
       current_password: string;
       new_password: string;
-      confirm_new_password: string;
     }) => fetchApi<{ message: string }>("/api/users/me/password", {
       method: "POST",
       body: JSON.stringify(data)
