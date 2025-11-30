@@ -97,6 +97,23 @@ export const api = {
     },
 
     getMe: () => fetchApi<UserResponse>('/api/users/me'),
+
+    update: (data: {
+      username?: string;
+      full_name?: string;
+    }) => fetchApi<UserResponse>("/api/users/me", {
+      method: "PATCH",
+      body: JSON.stringify(data)
+    }),
+
+    updatePassword: (data: {
+      current_password: string;
+      new_password: string;
+      confirm_new_password: string;
+    }) => fetchApi<{ message: string }>("/api/users/me/change-password", {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
   },
 
   publications: {
