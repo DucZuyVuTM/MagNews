@@ -75,9 +75,9 @@ export const api = {
         body: JSON.stringify(data),
       }),
 
-    login: async (username: string, password: string) => {
+    login: async (login: string, password: string) => {
       const formData = new URLSearchParams();
-      formData.append('username', username);
+      formData.append('login', login);
       formData.append('password', password);
 
       const response = await fetch(`${API_BASE_URL}/api/users/login`, {

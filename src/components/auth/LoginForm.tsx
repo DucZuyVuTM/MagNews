@@ -8,7 +8,7 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormProps) {
-  const [username, setUsername] = useState('');
+  const [loginInfo, setLoginInfo] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
     setLoading(true);
 
     try {
-      const tokenData = await api.users.login(username, password);
+      const tokenData = await api.users.login(loginInfo, password);
       localStorage.setItem('token', tokenData.access_token);
       login(tokenData.access_token);
 
@@ -51,14 +51,14 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-            Username
+          <label htmlFor="login" className="block text-sm font-medium text-gray-700 mb-1">
+            Email or username
           </label>
           <input
-            id="username"
+            id="login"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={loginInfo}
+            onChange={(e) => setLoginInfo(e.target.value)}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
