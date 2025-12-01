@@ -133,22 +133,22 @@ export default function AdminPublications() {
             <tbody className="bg-white divide-y divide-gray-200">
               {publications.map((publication) => (
                 <tr key={publication.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{publication.title}</div>
+                  <td className="px-6 py-4 break-words">
+                    <div className="text-sm font-medium text-gray-900 max-w-[50vw]">{publication.title}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded capitalize">
                       {publication.type}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {publication.publisher || '-'}
+                  <td className="px-6 py-4 break-words">
+                    <div className="text-sm text-gray-600 max-w-[50vw]">{publication.publisher || '-'}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ${publication.price_monthly.toFixed(2)}
+                  <td className="px-6 py-4 break-words">
+                    <div className="text-sm text-gray-900 max-w-[50vw]">${publication.price_monthly.toFixed(2)}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ${publication.price_yearly.toFixed(2)}
+                  <td className="px-6 py-4 break-words">
+                    <div className="text-sm text-gray-900 max-w-[50vw]">${publication.price_yearly.toFixed(2)}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

@@ -58,7 +58,7 @@ export default function PublicationDetail({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto overflow-x-hidden">
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-gray-900">{publication.title}</h2>
           <button
@@ -70,8 +70,8 @@ export default function PublicationDetail({
         </div>
 
         <div className="p-6">
-          <div className="flex items-start gap-6 mb-6">
-            <div className="flex-shrink-0 w-48 h-64 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
+          <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
+            <div className="flex-shrink-0 w-full sm:w-48 h-64 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
               {publication.cover_image_url ? (
                 <img
                   src={publication.cover_image_url}
@@ -83,7 +83,7 @@ export default function PublicationDetail({
               )}
             </div>
 
-            <div className="flex-1">
+            <div className="flex-1 w-full min-w-0">
               <div className="flex items-center gap-2 mb-3">
                 <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium capitalize">
                   {publication.type}
@@ -96,18 +96,18 @@ export default function PublicationDetail({
               </div>
 
               {publication.publisher && (
-                <p className="text-gray-700 font-medium mb-2">{publication.publisher}</p>
+                <p className="text-gray-700 font-medium mb-2 break-words">{publication.publisher}</p>
               )}
 
               {publication.frequency && (
-                <div className="flex items-center gap-2 text-gray-600 mb-3">
-                  <Calendar className="w-4 h-4" />
+                <div className="flex items-center gap-2 text-gray-600 mb-3 overflow-x-auto">
+                  <Calendar className="w-4 h-4 flex-shrink-0" />
                   <span className="text-sm">{publication.frequency}</span>
                 </div>
               )}
 
               {publication.description && (
-                <p className="text-gray-700 leading-relaxed">{publication.description}</p>
+                <p className="text-gray-700 leading-relaxed break-words">{publication.description}</p>
               )}
             </div>
           </div>
@@ -135,13 +135,13 @@ export default function PublicationDetail({
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => setSelectedDuration(1)}
-                    className={`p-4 border-2 rounded-lg transition-all ${
+                    className={`px-2 py-6 max-w-full border-2 rounded-lg transition-all ${
                       selectedDuration === 1
                         ? 'border-blue-600 bg-blue-50'
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
-                    <p className="text-lg font-bold text-gray-900">
+                    <p className="text-lg font-bold text-gray-900 overflow-x-auto">
                       ${publication.price_monthly.toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-600">per month</p>
@@ -149,19 +149,19 @@ export default function PublicationDetail({
 
                   <button
                     onClick={() => setSelectedDuration(12)}
-                    className={`p-4 border-2 rounded-lg transition-all relative ${
+                    className={`px-2 py-6 max-w-full border-2 rounded-lg transition-all relative ${
                       selectedDuration === 12
                         ? 'border-blue-600 bg-blue-50'
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
-                    <p className="text-lg font-bold text-gray-900">
+                    <span className="absolute top-1.5 left-1/2 transform -translate-x-1/2 px-2 py-0.5 bg-green-500 text-white text-xs rounded max-w-[90%] whitespace-nowrap truncate">
+                      Save {(((publication.price_monthly * 12 - publication.price_yearly) / (publication.price_monthly * 12)) * 100).toFixed(0)}%
+                    </span>
+                    <p className="text-lg font-bold text-gray-900 overflow-x-auto">
                       ${publication.price_yearly.toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-600">per year</p>
-                    <span className="absolute top-2 right-2 px-2 py-0.5 bg-green-500 text-white text-xs rounded">
-                      Save {(((publication.price_monthly * 12 - publication.price_yearly) / (publication.price_monthly * 12)) * 100).toFixed(0)}%
-                    </span>
                   </button>
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default function PublicationDetail({
                 disabled={loading || !token}
                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed font-medium text-lg"
               >
-                {loading ? 'Processing...' : `Subscribe for $${price.toFixed(2)}`}
+                <p className="break-words">{loading ? 'Processing...' : `Subscribe for $${price.toFixed(2)}`}</p>
               </button>
 
               {!token && (

@@ -101,13 +101,13 @@ export default function MySubscriptions() {
           key={subscription.id}
           className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
         >
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-1">
+          <div className="flex items-start justify-between mb-4 w-full gap-3">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-xl font-bold text-gray-900 mb-1 break-words">
                 {subscription.publication.title}
               </h3>
               {subscription.publication.publisher && (
-                <p className="text-sm text-gray-600">{subscription.publication.publisher}</p>
+                <p className="text-sm text-gray-600 break-words">{subscription.publication.publisher}</p>
               )}
             </div>
             <span
@@ -141,16 +141,16 @@ export default function MySubscriptions() {
             </div>
 
             <div className="flex items-center gap-2 text-gray-700">
-              <DollarSign className="w-5 h-5 text-gray-500" />
-              <div>
+              <DollarSign className="w-5 h-5 text-gray-500 flex-shrink-0" />
+              <div className="min-w-0">
                 <p className="text-xs text-gray-500">Price</p>
-                <p className="text-sm font-medium">${subscription.price.toFixed(2)}</p>
+                <p className="text-sm font-medium overflow-x-auto">${subscription.price.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {subscription.auto_renew ? (
                 <>
                   <RotateCw className="w-4 h-4 text-green-600" />

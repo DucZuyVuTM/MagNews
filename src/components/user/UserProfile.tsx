@@ -91,16 +91,16 @@ export default function UserProfileEdit() {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-500 to-blue-700 px-8 py-10 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-5">
+          <div className="flex items-center justify-between gap-5 flex-col text-center sm:flex-row sm:text-left">
+            <div className="flex items-center gap-5 flex-col sm:flex-row">
               <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
                 <User className="w-12 h-12 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-white">
+                <h1 className="text-3xl font-bold text-white mb-2 break-words">
                   {user.full_name || user.username}
                 </h1>
-                <p className="text-blue-100">@{user.username}</p>
+                <p className="text-blue-100 break-words">@{user.username}</p>
               </div>
             </div>
             <button
@@ -127,7 +127,7 @@ export default function UserProfileEdit() {
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1">
                   <Mail className="w-4 h-4" /> Email
                 </label>
-                <p className="text-gray-900 font-medium">{user.email}</p>
+                <p className="text-gray-900 font-medium break-words">{user.email}</p>
               </div>
 
               <div>
@@ -143,7 +143,7 @@ export default function UserProfileEdit() {
                     placeholder="Enter username..."
                   />
                 ) : (
-                  <p className="text-gray-900 font-medium">{user.username}</p>
+                  <p className="text-gray-900 font-medium break-words">{user.username}</p>
                 )}
               </div>
 
@@ -160,7 +160,7 @@ export default function UserProfileEdit() {
                     placeholder="Enter full name..."
                   />
                 ) : (
-                  <p className="text-gray-900 font-medium">
+                  <p className="text-gray-900 font-medium break-words">
                     {user.full_name || <span className="text-gray-400">Not set up yet</span>}
                   </p>
                 )}
@@ -193,7 +193,7 @@ export default function UserProfileEdit() {
 
           {/* Password changing */}
           <div className="border-t pt-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 gap-3">
               <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
                 <Lock className="w-6 h-6 text-red-600" />
                 Security
@@ -249,7 +249,7 @@ export default function UserProfileEdit() {
                   />
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-col sm:flex-row">
                   <button
                     type="submit"
                     disabled={loading}
@@ -273,7 +273,7 @@ export default function UserProfileEdit() {
           </div>
 
           {/* Other information */}
-          <div className="grid grid-cols-3 gap-6 pt-6 border-t">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6 border-t">
             <div>
               <p className="text-sm text-gray-500">Role</p>
               <span className="inline-block mt-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium capitalize">
