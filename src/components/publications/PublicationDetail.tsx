@@ -141,7 +141,7 @@ export default function PublicationDetail({
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
-                    <p className="text-lg font-bold text-gray-900 overflow-x-auto">
+                    <p className="text-lg font-bold text-gray-900 break-words">
                       ${publication.price_monthly.toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-600">per month</p>
@@ -158,7 +158,7 @@ export default function PublicationDetail({
                     <span className="absolute top-1.5 left-1/2 transform -translate-x-1/2 px-2 py-0.5 bg-green-500 text-white text-xs rounded max-w-[90%] whitespace-nowrap truncate">
                       Save {(((publication.price_monthly * 12 - publication.price_yearly) / (publication.price_monthly * 12)) * 100).toFixed(0)}%
                     </span>
-                    <p className="text-lg font-bold text-gray-900 overflow-x-auto">
+                    <p className="text-lg font-bold text-gray-900 break-words">
                       ${publication.price_yearly.toFixed(2)}
                     </p>
                     <p className="text-sm text-gray-600">per year</p>

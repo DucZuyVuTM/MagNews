@@ -60,13 +60,13 @@ export default function PublicationCard({ publication, onClick }: PublicationCar
         <div className="flex items-start justify-between pt-3 border-t border-gray-200">
           <div className="max-w-[40%]">
             <p className="text-xs text-gray-500">Monthly</p>
-            <p className="text-lg font-bold text-gray-900 overflow-x-auto">
+            <p className="text-lg font-bold text-gray-900 break-words">
               ${publication.price_monthly.toFixed(2)}
             </p>
           </div>
           <div className="text-right max-w-[40%]">
             <p className="text-xs text-gray-500">Yearly</p>
-            <p className="text-lg font-bold text-gray-900 overflow-x-auto">
+            <p className="text-lg font-bold text-gray-900 break-words">
               ${publication.price_yearly.toFixed(2)}
             </p>
           </div>

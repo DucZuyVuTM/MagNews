@@ -144,7 +144,7 @@ export default function MySubscriptions() {
               <DollarSign className="w-5 h-5 text-gray-500 flex-shrink-0" />
               <div className="min-w-0">
                 <p className="text-xs text-gray-500">Price</p>
-                <p className="text-sm font-medium overflow-x-auto">${subscription.price.toFixed(2)}</p>
+                <p className="text-sm font-medium break-words">${subscription.price.toFixed(2)}</p>
               </div>
             </div>
           </div>
