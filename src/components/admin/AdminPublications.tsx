@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { api, ApiError } from '../../services/api';
 import { PublicationResponse, PublicationCreate, PublicationUpdate } from '../../types/api';
 import PublicationForm from './PublicationForm';
+import LoadingSpinner from '../ui/LoadingSpinner';
 import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminPublications() {
@@ -75,13 +76,7 @@ export default function AdminPublications() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner />
 
   return (
     <div>

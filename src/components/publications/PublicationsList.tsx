@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { api } from '../../services/api';
+import { api, ApiError } from '../../services/api';
 import { PublicationResponse } from '../../types/api';
 import PublicationCard from './PublicationCard';
 import { Filter } from 'lucide-react';
-import { ApiError } from '../../services/api';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import ErrorState from '../ui/ErrorState';
 
 interface PublicationsListProps {
   searchQuery: string;
@@ -61,27 +62,9 @@ export default function PublicationsList({
     return Array.from(new Set(filteredPublications.map(p => p.type)));
   }, [filteredPublications]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner />
 
-  if (error) {
-    return (
-      <div className="text-center py-10">
-        <p className="text-red-600">{error}</p>
-        <button
-          onClick={loadPublications}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
+  if (error) return <ErrorState message={error} onRetry={loadPublications} />
 
   return (
     <div>
