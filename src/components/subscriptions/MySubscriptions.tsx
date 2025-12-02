@@ -120,7 +120,7 @@ export default function MySubscriptions() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div className="flex items-center gap-2 text-gray-700">
+            <div className="flex items-start gap-2 text-gray-700">
               <Calendar className="w-5 h-5 text-gray-500" />
               <div>
                 <p className="text-xs text-gray-500">Start Date</p>
@@ -130,7 +130,7 @@ export default function MySubscriptions() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-gray-700">
+            <div className="flex items-start gap-2 text-gray-700">
               <Calendar className="w-5 h-5 text-gray-500" />
               <div>
                 <p className="text-xs text-gray-500">End Date</p>
@@ -140,7 +140,7 @@ export default function MySubscriptions() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-gray-700">
+            <div className="flex items-start gap-2 text-gray-700">
               <DollarSign className="w-5 h-5 text-gray-500 flex-shrink-0" />
               <div className="min-w-0">
                 <p className="text-xs text-gray-500">Price</p>

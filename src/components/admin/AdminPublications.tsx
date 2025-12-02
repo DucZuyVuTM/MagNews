@@ -85,14 +85,14 @@ export default function AdminPublications() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex gap-3 items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Manage Publications</h2>
         <button
           onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
         >
           <Plus className="w-5 h-5" />
-          Add Publication
+          <p>Add<span className="hidden md:inline"> Publication</span></p>
         </button>
       </div>
 

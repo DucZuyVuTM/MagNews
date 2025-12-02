@@ -48,7 +48,7 @@ export default function PublicationCard({ publication, onClick }: PublicationCar
         )}
 
         {publication.description && (
-          <p className="text-sm text-gray-700 mb-3 line-clamp-2 break-words overflow-hidden">
+          <p className="text-sm text-gray-700 mb-3 line-clamp-2 break-words">
             {publication.description}
           </p>
         )}
@@ -57,7 +57,7 @@ export default function PublicationCard({ publication, onClick }: PublicationCar
           <p className="text-xs text-gray-500 mb-3 break-words">{publication.frequency}</p>
         )}
 
-        <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+        <div className="flex items-start justify-between pt-3 border-t border-gray-200">
           <div className="max-w-[40%]">
             <p className="text-xs text-gray-500">Monthly</p>
             <p className="text-lg font-bold text-gray-900 overflow-x-auto">
