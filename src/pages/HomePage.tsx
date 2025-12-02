@@ -1,10 +1,21 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PublicationsList from '../components/publications/PublicationsList';
 import PublicationDetail from '../components/publications/PublicationDetail';
 import { PublicationResponse } from '../types/api';
 
 export default function HomePage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedPublication, setSelectedPublication] = useState<PublicationResponse | null>(null);
+
+  const handleTypeFilterChange = (newType: string) => {
+    if (newType === '') {
+      searchParams.delete('type');
+    } else {
+      searchParams.set('type', newType);
+    }
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className="bg-gray-50 py-8">
@@ -18,7 +29,10 @@ export default function HomePage() {
           </p>
         </div>
 
-        <PublicationsList onSelectPublication={setSelectedPublication} />
+        <PublicationsList
+          onTypeFilterChange={handleTypeFilterChange}
+          onSelectPublication={setSelectedPublication}
+        />
 
         {selectedPublication && (
           <PublicationDetail

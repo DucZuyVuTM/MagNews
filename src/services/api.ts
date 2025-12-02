@@ -55,6 +55,17 @@ async function fetchApi<T>(
     throw new ApiError(401, 'Your session has expired. Please log in again.');
   }
 
+  if (response.status === 422) {
+    const url = new URL(response.url);
+    const typeParam = url.searchParams.get('type');
+
+    if (typeParam) {
+      throw new ApiError(422, `Type "${typeParam}" is not available.`);
+    } else {
+      throw new ApiError(422, 'Error: Open Console in DevTools for details');
+    }
+  }
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
     throw new ApiError(response.status, error.detail || 'Request failed');

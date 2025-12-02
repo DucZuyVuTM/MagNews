@@ -1,18 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { api } from '../../services/api';
 import { PublicationResponse } from '../../types/api';
 import PublicationCard from './PublicationCard';
 import { Filter } from 'lucide-react';
+import { ApiError } from '../../services/api';
 
 interface PublicationsListProps {
   onSelectPublication: (publication: PublicationResponse) => void;
+  onTypeFilterChange: (type: string) => void;
 }
 
-export default function PublicationsList({ onSelectPublication }: PublicationsListProps) {
+export default function PublicationsList({
+  onSelectPublication,
+  onTypeFilterChange,
+}: PublicationsListProps) {
+  const [searchParams] = useSearchParams();
   const [publications, setPublications] = useState<PublicationResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [typeFilter, setTypeFilter] = useState<string>('');
+
+  const typeFilter = searchParams.get('type') || '';
 
   const loadPublications = useCallback(async () => {
     try {
@@ -23,7 +31,11 @@ export default function PublicationsList({ onSelectPublication }: PublicationsLi
       setPublications(data);
       setError('');
     } catch (err) {
-      setError('Failed to load publications');
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError('Failed to load publications');
+      }
       console.error(err);
     } finally {
       setLoading(false);
@@ -67,7 +79,7 @@ export default function PublicationsList({ onSelectPublication }: PublicationsLi
         </div>
         <div className="flex gap-2 flex-wrap">
           <button
-            onClick={() => setTypeFilter('')}
+            onClick={() => onTypeFilterChange('')}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
               typeFilter === ''
                 ? 'bg-blue-600 text-white'
@@ -79,7 +91,7 @@ export default function PublicationsList({ onSelectPublication }: PublicationsLi
           {types.map((type) => (
             <button
               key={type}
-              onClick={() => setTypeFilter(type)}
+              onClick={() => onTypeFilterChange(type)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${
                 typeFilter === type
                   ? 'bg-blue-600 text-white'
