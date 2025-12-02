@@ -1,7 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation
+} from 'react-router-dom';
+
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import { api } from './services/api';
+
 import Header from './components/layout/Header';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
@@ -11,12 +21,15 @@ import ProfilePage from './pages/ProfilePage';
 import Footer from './components/layout/Footer';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState('home');
   const { token, setUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentPage = location.pathname.slice(1) || 'home'; // '' --> 'home'
 
   useEffect(() => {
     const handleForceHome = () => {
-      setCurrentPage('home');
+      navigate('/');
     };
 
     window.addEventListener('auth:force-home', handleForceHome);
@@ -24,7 +37,7 @@ function AppContent() {
     return () => {
       window.removeEventListener('auth:force-home', handleForceHome);
     };
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (token) {
@@ -37,11 +50,11 @@ function AppContent() {
   }, [token, setUser]);
 
   const handleNavigate = (page: string) => {
-    setCurrentPage(page);
+    navigate(page === 'home' ? '/' : `/${page}`);
   };
 
   const handleAuthSuccess = () => {
-    setCurrentPage('home');
+    navigate('/');
   };
 
   return (
@@ -49,11 +62,17 @@ function AppContent() {
       <Header currentPage={currentPage} onNavigate={handleNavigate} />
 
       <main className="flex-1 flex flex-col">
-        {currentPage === 'home' && <HomePage />}
-        {currentPage === 'auth' && <AuthPage onSuccess={handleAuthSuccess} />}
-        {currentPage === 'subscriptions' && <SubscriptionsPage />}
-        {currentPage === 'admin' && <AdminPage />}
-        {currentPage === 'profile' && <ProfilePage />}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<AuthPage onSuccess={handleAuthSuccess} mode={'login'} />} />
+          <Route path="/register" element={<AuthPage onSuccess={handleAuthSuccess} mode={'register'} />} />
+          <Route path="/subscriptions" element={<SubscriptionsPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          
+          {/* Redirect all strange links to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
 
       <Footer />
@@ -63,9 +82,11 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

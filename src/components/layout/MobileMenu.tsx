@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, LogOut, User, BookOpen, Receipt, Shield, LogIn } from 'lucide-react';
+import { Menu, X, LogOut, User, BookOpen, Receipt, Shield, LogIn, UserPlus } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -7,7 +7,6 @@ interface MenuItem {
   label: string;
   page: string;
   icon: LucideIcon;
-  onClick?: () => void;
 }
 
 interface MobileMenuProps {
@@ -20,13 +19,8 @@ export default function MobileMenu({ currentPage, onNavigate }: MobileMenuProps)
   const { user, token, logout } = useAuth();
 
   const handleLogout = () => {
-  logout();
+    logout();
     onNavigate('home');
-    setOpen(false);
-  };
-
-  const handleSignIn = () => {
-    onNavigate('auth');
     setOpen(false);
   };
 
@@ -39,7 +33,8 @@ export default function MobileMenu({ currentPage, onNavigate }: MobileMenuProps)
       ].filter(Boolean) as MenuItem[]
     : [
         { label: 'Publications', page: 'home', icon: BookOpen },
-        { label: 'Sign In', page: 'auth', icon: LogIn, onClick: handleSignIn },
+        { label: 'Sign In', page: 'login', icon: LogIn },
+        { label: 'Register', page: 'register', icon: UserPlus },
       ];
 
   return (
@@ -64,8 +59,7 @@ export default function MobileMenu({ currentPage, onNavigate }: MobileMenuProps)
                 <button
                   key={item.page}
                   onClick={() => {
-                    item.onClick?.();
-                    if (!item.onClick) onNavigate(item.page);
+                    onNavigate(item.page);
                     setOpen(false);
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${

@@ -1,5 +1,5 @@
 import { useAuth } from '../../hooks/useAuth';
-import { LogOut, User, LogIn } from 'lucide-react';
+import { LogOut, User, LogIn, UserPlus } from 'lucide-react';
 import MobileMenu from './MobileMenu';
 
 interface HeaderProps {
@@ -88,13 +88,22 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                 </button>
               </>
             ) : (
-              <button
-                onClick={() => onNavigate('auth')}
-                className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-              >
-                <LogIn className="w-4 h-4" />
-                <span className="text-sm font-medium">Sign In</span>
-              </button>
+              <>
+                <button
+                  onClick={() => onNavigate('login')}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span className="text-sm font-medium">Sign In</span>
+                </button>
+                <button
+                  onClick={() => onNavigate('register')}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  <span className="text-sm font-medium">Register</span>
+                </button>
+              </>
             )}
           </nav>
 

@@ -1,25 +1,26 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/auth/LoginForm';
 import RegisterForm from '../components/auth/RegisterForm';
 
 interface AuthPageProps {
   onSuccess: () => void;
+  mode: 'login' | 'register'
 }
 
-export default function AuthPage({ onSuccess }: AuthPageProps) {
-  const [mode, setMode] = useState<'login' | 'register'>('login');
+export default function AuthPage({ onSuccess, mode }: AuthPageProps) {
+  const navigate = useNavigate();
 
   return (
     <div className="flex-1 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
       {mode === 'login' ? (
         <LoginForm
           onSuccess={onSuccess}
-          onSwitchToRegister={() => setMode('register')}
+          onSwitchToRegister={() => navigate("/register")}
         />
       ) : (
         <RegisterForm
           onSuccess={onSuccess}
-          onSwitchToLogin={() => setMode('login')}
+          onSwitchToLogin={() => navigate("/login")}
         />
       )}
     </div>
