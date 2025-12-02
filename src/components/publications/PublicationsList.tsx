@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../../services/api';
 import { PublicationResponse } from '../../types/api';
@@ -7,11 +7,13 @@ import { Filter } from 'lucide-react';
 import { ApiError } from '../../services/api';
 
 interface PublicationsListProps {
+  searchQuery: string;
   onSelectPublication: (publication: PublicationResponse) => void;
   onTypeFilterChange: (type: string) => void;
 }
 
 export default function PublicationsList({
+  searchQuery,
   onSelectPublication,
   onTypeFilterChange,
 }: PublicationsListProps) {
@@ -19,6 +21,15 @@ export default function PublicationsList({
   const [publications, setPublications] = useState<PublicationResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const filteredPublications = useMemo(() => {
+    if (!searchQuery) return publications;
+    
+    return publications.filter(pub =>
+      pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (pub.publisher?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+    );
+  }, [publications, searchQuery]);
 
   const typeFilter = searchParams.get('type') || '';
 
@@ -46,7 +57,9 @@ export default function PublicationsList({
     loadPublications();
   }, [loadPublications]);
 
-  const types = Array.from(new Set(publications.map(p => p.type)));
+  const types = useMemo(() => {
+    return Array.from(new Set(filteredPublications.map(p => p.type)));
+  }, [filteredPublications]);
 
   if (loading) {
     return (
@@ -74,7 +87,7 @@ export default function PublicationsList({
     <div>
       <div className="mb-6 flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="w-5 h-5 text-gray-600" />
+          <Filter className="w-5 h-5 text-gray-600 flex-shrink-0" />
           <span className="text-sm font-medium text-gray-700">Filter by type:</span>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -104,13 +117,13 @@ export default function PublicationsList({
         </div>
       </div>
 
-      {publications.length === 0 ? (
+      {filteredPublications.length === 0 ? (
         <div className="text-center py-10">
           <p className="text-gray-600">No publications found</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {publications.map((publication) => (
+          {filteredPublications.map((publication) => (
             <PublicationCard
               key={publication.id}
               publication={publication}
@@ -118,6 +131,13 @@ export default function PublicationsList({
             />
           ))}
         </div>
+      )}
+
+      {searchQuery && (
+        <p className="text-center text-gray-600 mt-6">
+          Found <span className="font-bold text-blue-600">{filteredPublications.length}</span> publication{filteredPublications.length !== 1 ? 's' : ''}
+          {searchQuery && ` for "${searchQuery}"`}
+        </p>
       )}
     </div>
   );

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { PublicationResponse } from '../types/api';
+import SearchBar from '../components/layout/SearchBar';
 import PublicationsList from '../components/publications/PublicationsList';
 import PublicationDetail from '../components/publications/PublicationDetail';
-import { PublicationResponse } from '../types/api';
 
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedPublication, setSelectedPublication] = useState<PublicationResponse | null>(null);
 
   const handleTypeFilterChange = (newType: string) => {
@@ -29,7 +31,16 @@ export default function HomePage() {
           </p>
         </div>
 
+        <div className="mb-8 max-w-2xl mx-auto">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by Title or Publisher..."
+          />
+        </div>
+
         <PublicationsList
+          searchQuery={searchQuery}
           onTypeFilterChange={handleTypeFilterChange}
           onSelectPublication={setSelectedPublication}
         />
