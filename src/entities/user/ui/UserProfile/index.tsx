@@ -3,7 +3,7 @@ import { useAuth } from '../../../../shared/hooks/useAuth';
 import { api, ApiError } from '../../../../shared/api';
 import { User, Mail, Lock, Save } from 'lucide-react';
 
-export default function UserProfileEdit() {
+export default function UserProfile() {
   const { user, setUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
