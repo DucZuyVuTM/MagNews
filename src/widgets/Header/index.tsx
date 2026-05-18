@@ -67,6 +67,19 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                   </button>
                 )}
 
+                {user?.role === 'provider' && (
+                  <button
+                    onClick={() => onNavigate('provider')}
+                    className={`text-sm font-medium transition-colors ${
+                      currentPage === 'provider'
+                        ? 'text-blue-600'
+                        : 'text-gray-700 hover:text-blue-600'
+                    }`}
+                  >
+                    Publisher cabinet
+                  </button>
+                )}
+
                 <button
                   onClick={() => onNavigate('profile')}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${

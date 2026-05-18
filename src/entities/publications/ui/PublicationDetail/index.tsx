@@ -3,6 +3,7 @@ import { PublicationResponse } from '../../../../shared/types/api';
 import { api, ApiError } from '../../../../shared/api';
 import { useAuth } from '../../../../shared/hooks/useAuth';
 import { X, BookOpen, Newspaper, Calendar } from 'lucide-react';
+import ReviewSection from '../../../../features/reviews/ReviewSection';
 
 interface PublicationDetailProps {
   publication: PublicationResponse;
@@ -193,6 +194,8 @@ export default function PublicationDetail({
               )}
             </div>
           )}
+
+          <ReviewSection publicationId={publication.id} />
         </div>
       </div>
     </div>

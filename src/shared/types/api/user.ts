@@ -5,6 +5,11 @@ export interface UserCreate {
   password: string;
 }
 
+export interface ProviderRegister extends UserCreate {
+  company_name: string;
+  inn?: string | null;
+}
+
 export interface UserResponse {
   id: number;
   email: string;
@@ -12,6 +17,8 @@ export interface UserResponse {
   full_name?: string;
   role: string;
   is_active: boolean;
+  company_name?: string | null;
+  inn?: string | null;
   created_at: string;
 }
 
