@@ -39,6 +39,7 @@ export default function PublicationsList({
       setLoading(true);
       const data = await api.publications.list({
         type: typeFilter || undefined,
+        q: searchQuery || undefined,
       });
       setPublications(data);
       setError('');
@@ -52,10 +53,13 @@ export default function PublicationsList({
     } finally {
       setLoading(false);
     }
-  }, [typeFilter]);
+  }, [typeFilter, searchQuery]);
 
   useEffect(() => {
-    loadPublications();
+    const handle = setTimeout(() => {
+      loadPublications();
+    }, 200);
+    return () => clearTimeout(handle);
   }, [loadPublications]);
 
   const types = useMemo(() => {

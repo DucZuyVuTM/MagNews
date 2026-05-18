@@ -24,3 +24,8 @@ dist-ssr
 
 # Generated API documentation
 docs/api/
+
+# Playwright
+/playwright-report
+/test-results
+/playwright/.cache
