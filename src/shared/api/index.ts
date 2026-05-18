@@ -8,6 +8,9 @@ import {
   PublicationResponse,
   SubscriptionCreate,
   SubscriptionResponse,
+  ComplaintCreate,
+  ComplaintStatusUpdate,
+  ComplaintResponse,
 } from '../types/api';
 
 class ApiError extends Error {
@@ -129,11 +132,12 @@ export const api = {
   publications: {
     listAll: () => fetchApi<PublicationResponse[]>('/api/publications/all'),
 
-    list: (params?: { skip?: number; limit?: number; type?: string }) => {
+    list: (params?: { skip?: number; limit?: number; type?: string; q?: string }) => {
       const query = new URLSearchParams();
       if (params?.skip !== undefined) query.append('skip', params.skip.toString());
       if (params?.limit !== undefined) query.append('limit', params.limit.toString());
       if (params?.type != null && params.type !== '') query.append('type', params.type);
+      if (params?.q != null && params.q.trim() !== '') query.append('q', params.q.trim());
 
       return fetchApi<PublicationResponse[]>(
         `/api/publications/?${query.toString()}`
@@ -174,6 +178,37 @@ export const api = {
     cancel: (id: number) =>
       fetchApi<void>(`/api/subscriptions/${id}`, {
         method: 'DELETE',
+      }),
+
+    block: (id: number, reason?: string) =>
+      fetchApi<SubscriptionResponse>(`/api/subscriptions/${id}/block`, {
+        method: 'PATCH',
+        body: JSON.stringify({ reason: reason ?? null }),
+      }),
+  },
+
+  complaints: {
+    submit: (data: ComplaintCreate) =>
+      fetchApi<ComplaintResponse>('/api/complaints/', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+
+    getMy: () => fetchApi<ComplaintResponse[]>('/api/complaints/my'),
+
+    listAll: (statusFilter?: string) => {
+      const query = new URLSearchParams();
+      if (statusFilter) query.append('status_filter', statusFilter);
+      const suffix = query.toString() ? `?${query.toString()}` : '';
+      return fetchApi<ComplaintResponse[]>(`/api/complaints/${suffix}`);
+    },
+
+    get: (id: number) => fetchApi<ComplaintResponse>(`/api/complaints/${id}`),
+
+    updateStatus: (id: number, data: ComplaintStatusUpdate) =>
+      fetchApi<ComplaintResponse>(`/api/complaints/${id}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
       }),
   },
 

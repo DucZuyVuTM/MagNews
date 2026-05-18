@@ -1,6 +1,12 @@
-import AdminPublications from "../../widgets/Admin/AdminPublications";
+import { useState } from 'react';
+import { Tab, Tabs } from '@mui/material';
+import AdminPublications from '../../widgets/Admin/AdminPublications';
+import AdminSubscriptionBlock from '../../widgets/Admin/AdminSubscriptionBlock';
+import AdminComplaints from '../../widgets/Admin/AdminComplaints';
 
 export default function AdminPage() {
+  const [tab, setTab] = useState(0);
+
   return (
     <div className="bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -9,11 +15,26 @@ export default function AdminPage() {
             Admin Dashboard
           </h1>
           <p className="text-lg text-gray-600">
-            Manage publications and system settings
+            Manage publications, complaints, and subscriptions
           </p>
         </div>
 
-        <AdminPublications />
+        <div className="mb-6 bg-white rounded-xl shadow-sm">
+          <Tabs
+            value={tab}
+            onChange={(_, value) => setTab(value)}
+            centered
+            data-testid="admin-tabs"
+          >
+            <Tab label="Publications" data-testid="admin-tab-pubs" />
+            <Tab label="Complaints" data-testid="admin-tab-complaints" />
+            <Tab label="Block subscription" data-testid="admin-tab-block" />
+          </Tabs>
+        </div>
+
+        {tab === 0 && <AdminPublications />}
+        {tab === 1 && <AdminComplaints />}
+        {tab === 2 && <AdminSubscriptionBlock />}
       </div>
     </div>
   );
