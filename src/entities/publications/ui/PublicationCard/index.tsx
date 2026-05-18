@@ -1,5 +1,6 @@
 import { BookOpen, Newspaper } from 'lucide-react';
 import { PublicationResponse } from '../../../../shared/types/api';
+import { resolveAssetUrl } from '../../../../shared/api';
 
 interface PublicationCardProps {
   publication: PublicationResponse;
@@ -17,7 +18,7 @@ export default function PublicationCard({ publication, onClick }: PublicationCar
       <div className="relative h-48 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
         {publication.cover_image_url ? (
           <img
-            src={publication.cover_image_url}
+            src={resolveAssetUrl(publication.cover_image_url)}
             alt={publication.title}
             className="w-full h-full object-cover"
           />

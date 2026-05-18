@@ -16,6 +16,7 @@ import {
   ReviewCreate,
   ReviewResponse,
   PublicationRatingSummary,
+  CoverUploadResponse,
 } from '../types/api';
 
 class ApiError extends Error {
@@ -250,7 +251,39 @@ export const api = {
       }),
   },
 
+  uploads: {
+    cover: async (file: File): Promise<CoverUploadResponse> => {
+      const token = localStorage.getItem('token');
+      const form = new FormData();
+      form.append('file', file);
+
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const response = await fetch(`${API_BASE_URL}/api/uploads/cover`, {
+        method: 'POST',
+        credentials: 'include',
+        headers,
+        body: form,
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Upload failed' }));
+        throw new ApiError(response.status, error.detail || 'Upload failed');
+      }
+
+      return response.json();
+    },
+  },
+
   health: () => fetchApi<{ status: string }>('/health'),
 };
+
+export function resolveAssetUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith('/static')) return `${API_BASE_URL}${url}`;
+  return url;
+}
 
 export { ApiError };
