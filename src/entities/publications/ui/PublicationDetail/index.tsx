@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { PublicationResponse } from '../../../../shared/types/api';
-import { api, ApiError } from '../../../../shared/api';
+import { api, ApiError, resolveAssetUrl } from '../../../../shared/api';
 import { useAuth } from '../../../../shared/hooks/useAuth';
 import { X, BookOpen, Newspaper, Calendar } from 'lucide-react';
+import ReviewSection from '../../../../features/reviews/ReviewSection';
 
 interface PublicationDetailProps {
   publication: PublicationResponse;
@@ -74,7 +75,7 @@ export default function PublicationDetail({
             <div className="flex-shrink-0 w-full sm:w-48 h-64 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
               {publication.cover_image_url ? (
                 <img
-                  src={publication.cover_image_url}
+                  src={resolveAssetUrl(publication.cover_image_url)}
                   alt={publication.title}
                   className="w-full h-full object-cover rounded-lg"
                 />
@@ -193,6 +194,8 @@ export default function PublicationDetail({
               )}
             </div>
           )}
+
+          <ReviewSection publicationId={publication.id} />
         </div>
       </div>
     </div>

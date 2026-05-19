@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PublicationCreate, PublicationUpdate } from '../../../shared/types/api';
-import { X } from 'lucide-react';
+import { api, ApiError, resolveAssetUrl } from '../../../shared/api';
+import { X, Upload } from 'lucide-react';
 
 interface PublicationFormProps {
   initialData?: Partial<PublicationCreate>;
@@ -27,11 +28,28 @@ export default function PublicationForm({
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCoverFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setError('');
+    setUploading(true);
+    try {
+      const { url } = await api.uploads.cover(file);
+      setFormData((prev) => ({ ...prev, cover_image_url: url }));
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Upload failed');
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -189,15 +207,36 @@ export default function PublicationForm({
           </div>
 
           <div>
-            <label htmlFor="cover_image_url" className="block text-sm font-medium text-gray-700 mb-1">
-              Cover Image URL
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Cover Image
+            </label>
+            {formData.cover_image_url && (
+              <div className="mb-2 w-32 h-40 bg-gray-100 rounded overflow-hidden border border-gray-200">
+                <img
+                  src={resolveAssetUrl(formData.cover_image_url)}
+                  alt="Cover preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <label className="inline-flex items-center gap-2 px-3 py-2 mb-2 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 text-sm">
+              <Upload className="w-4 h-4" />
+              {uploading ? 'Uploading...' : 'Upload file'}
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleCoverFile}
+                disabled={uploading}
+                className="hidden"
+              />
             </label>
             <input
               id="cover_image_url"
               name="cover_image_url"
-              type="url"
+              type="text"
               value={formData.cover_image_url}
               onChange={handleChange}
+              placeholder="or paste image URL"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>

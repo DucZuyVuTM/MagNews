@@ -34,5 +34,13 @@ export interface PublicationResponse {
   cover_image_url?: string;
   is_visible: boolean;
   is_available: boolean;
+  provider_id?: number | null;
+  moderation_status: 'pending' | 'approved' | 'rejected';
+  moderation_note?: string | null;
   created_at: string;
+}
+
+export interface ModerationDecision {
+  decision: 'approve' | 'reject';
+  note?: string;
 }
