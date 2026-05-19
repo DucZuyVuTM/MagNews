@@ -3,6 +3,7 @@ import { Tab, Tabs } from '@mui/material';
 import AdminPublications from '../../widgets/Admin/AdminPublications';
 import AdminSubscriptionBlock from '../../widgets/Admin/AdminSubscriptionBlock';
 import AdminComplaints from '../../widgets/Admin/AdminComplaints';
+import AdminModeration from '../../widgets/Admin/AdminModeration';
 
 export default function AdminPage() {
   const [tab, setTab] = useState(0);
@@ -26,15 +27,17 @@ export default function AdminPage() {
             centered
             data-testid="admin-tabs"
           >
+            <Tab label="Moderation" data-testid="admin-tab-moderation" />
             <Tab label="Publications" data-testid="admin-tab-pubs" />
             <Tab label="Complaints" data-testid="admin-tab-complaints" />
             <Tab label="Block subscription" data-testid="admin-tab-block" />
           </Tabs>
         </div>
 
-        {tab === 0 && <AdminPublications />}
-        {tab === 1 && <AdminComplaints />}
-        {tab === 2 && <AdminSubscriptionBlock />}
+        {tab === 0 && <AdminModeration />}
+        {tab === 1 && <AdminPublications />}
+        {tab === 2 && <AdminComplaints />}
+        {tab === 3 && <AdminSubscriptionBlock />}
       </div>
     </div>
   );

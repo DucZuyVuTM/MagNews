@@ -17,6 +17,7 @@ import HomePage from '../pages/HomePage';
 import AuthPage from '../pages/AuthPage';
 import SubscriptionsPage from '../pages/SubscriptionsPage';
 import AdminPage from '../pages/AdminPage';
+import ProviderPage from '../pages/ProviderPage';
 import ProfilePage from '../pages/ProfilePage';
 import Footer from '../widgets/Footer';
 
@@ -66,8 +67,10 @@ function AppContent() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<AuthPage onSuccess={handleAuthSuccess} mode={'login'} />} />
           <Route path="/register" element={<AuthPage onSuccess={handleAuthSuccess} mode={'register'} />} />
+          <Route path="/register-provider" element={<AuthPage onSuccess={handleAuthSuccess} mode={'register-provider'} />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/provider" element={<ProviderPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           
           {/* Redirect all strange links to home */}

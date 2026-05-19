@@ -1,16 +1,22 @@
 import { API_BASE_URL } from '../config';
 import {
   UserCreate,
+  ProviderRegister,
   UserResponse,
   Token,
   PublicationCreate,
   PublicationUpdate,
   PublicationResponse,
+  ModerationDecision,
   SubscriptionCreate,
   SubscriptionResponse,
   ComplaintCreate,
   ComplaintStatusUpdate,
   ComplaintResponse,
+  ReviewCreate,
+  ReviewResponse,
+  PublicationRatingSummary,
+  CoverUploadResponse,
 } from '../types/api';
 
 class ApiError extends Error {
@@ -89,6 +95,12 @@ export const api = {
         body: JSON.stringify(data),
       }),
 
+    registerProvider: (data: ProviderRegister) =>
+      fetchApi<UserResponse>('/api/users/register-provider', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+
     login: async (login: string, password: string) => {
       const formData = new URLSearchParams();
       formData.append('login', login);
@@ -132,6 +144,11 @@ export const api = {
   publications: {
     listAll: () => fetchApi<PublicationResponse[]>('/api/publications/all'),
 
+    listPending: () =>
+      fetchApi<PublicationResponse[]>('/api/publications/pending'),
+
+    listMine: () => fetchApi<PublicationResponse[]>('/api/publications/mine'),
+
     list: (params?: { skip?: number; limit?: number; type?: string; q?: string }) => {
       const query = new URLSearchParams();
       if (params?.skip !== undefined) query.append('skip', params.skip.toString());
@@ -163,6 +180,28 @@ export const api = {
       fetchApi<void>(`/api/publications/${id}`, {
         method: 'DELETE',
       }),
+
+    moderate: (id: number, data: ModerationDecision) =>
+      fetchApi<PublicationResponse>(`/api/publications/${id}/moderate`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+  },
+
+  reviews: {
+    create: (data: ReviewCreate) =>
+      fetchApi<ReviewResponse>('/api/reviews/', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+
+    listByPublication: (publicationId: number) =>
+      fetchApi<ReviewResponse[]>(`/api/reviews/publication/${publicationId}`),
+
+    getSummary: (publicationId: number) =>
+      fetchApi<PublicationRatingSummary>(
+        `/api/reviews/publication/${publicationId}/summary`
+      ),
   },
 
   subscriptions: {
@@ -212,7 +251,39 @@ export const api = {
       }),
   },
 
+  uploads: {
+    cover: async (file: File): Promise<CoverUploadResponse> => {
+      const token = localStorage.getItem('token');
+      const form = new FormData();
+      form.append('file', file);
+
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const response = await fetch(`${API_BASE_URL}/api/uploads/cover`, {
+        method: 'POST',
+        credentials: 'include',
+        headers,
+        body: form,
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ detail: 'Upload failed' }));
+        throw new ApiError(response.status, error.detail || 'Upload failed');
+      }
+
+      return response.json();
+    },
+  },
+
   health: () => fetchApi<{ status: string }>('/health'),
 };
+
+export function resolveAssetUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith('/static')) return `${API_BASE_URL}${url}`;
+  return url;
+}
 
 export { ApiError };
